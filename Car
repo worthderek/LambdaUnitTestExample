@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Amazon.Lambda.Core;
+
+// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
+[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+
+namespace LambdaUnitTestExample
+{
+    public class Function
+    {
+        public string FunctionHandler(string input, ILambdaContext context)
+        {
+            return input?.ToUpper();
+        }
+    }
+    public enum Condition
+    {
+        EXCELLENT,
+        GOOD,
+        FAIR,
+        BAD
+    };
+    public class Car
+    {
+        public string Make
+        {
+            get;
+            set;
+        }
+        public Condition Condition
+        {
+            get;
+            set;
+        }
+        private int SpeedLogic;
+        public int Speed
+        {
+            get
+            {
+                return SpeedLogic;
+            }
+            set
+            {
+                SpeedLogic = value;
+                if (SpeedLogic < -50)
+                {
+                    Speed = -50;
+                }
+                else if (SpeedLogic > 200)
+                {
+                    Speed = 200;
+                }
+            }
+        }
+        public Car()
+        {
+            this.Make = "";
+            this.Speed = 0;
+            Condition = Condition.EXCELLENT;
+        }
+        public Car(string make, Condition con)
+        {
+            this.Make = make;
+            this.Speed = Speed;
+            Condition = con;
+        }
+    }
+}
